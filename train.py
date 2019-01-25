@@ -18,6 +18,8 @@ img_rows, img_cols = 48, 48
 # the data, shuffled and split between train and test sets
 x_train = []
 y_train = []
+x_dev= []
+y_dev = []
 x_test = []
 y_test = []
 
@@ -34,6 +36,8 @@ with open('./data/fer2013.csv') as file:
             x, y = x_train, y_train
         elif usage == 'PrivateTest':
             x, y = x_test, y_test
+        elif usage == 'PublicTest':
+            x, y = x_dev, y_dev 
         else:
             continue
 
@@ -43,29 +47,37 @@ with open('./data/fer2013.csv') as file:
 
 x_train = np.array(x_train)
 y_train = np.array(y_train)
+x_dev = np.array(x_dev)
+y_dev = np.array(y_dev)
 x_test = np.array(x_test)
 y_test = np.array(y_test)
 
-
+# Flexibility in case of different backends (support different backend)
 if K.image_data_format() == 'channels_first':
     x_train = x_train.reshape(x_train.shape[0], 1, img_rows, img_cols)
+    x_dev = x_dev.reshape(x_dev.shape[0], 1, img_rows, img_cols)
     x_test = x_test.reshape(x_test.shape[0], 1, img_rows, img_cols)
     input_shape = (1, img_rows, img_cols)
 else:
     x_train = x_train.reshape(x_train.shape[0], img_rows, img_cols, 1)
+    x_dev = x_dev.reshape(x_dev.shape[0], img_rows, img_cols, 1)
     x_test = x_test.reshape(x_test.shape[0], img_rows, img_cols, 1)
     input_shape = (img_rows, img_cols, 1)
 
 x_train = x_train.astype('float32')
+x_dev = x_dev.astype('float32')
 x_test = x_test.astype('float32')
 x_train /= 255
+x_dev /= 255
 x_test /= 255
 print('x_train shape:', x_train.shape)
 print(x_train.shape[0], 'train samples')
+print(x_dev.shape[0], 'dev samples')
 print(x_test.shape[0], 'test samples')
 
 # convert class vectors to binary class matrices
 y_train = keras.utils.to_categorical(y_train, num_classes)
+y_dev = keras.utils.to_categorical(y_dev, num_classes)
 y_test = keras.utils.to_categorical(y_test, num_classes)
 
 model = Sequential()
@@ -91,6 +103,7 @@ model.fit(x_train, y_train,
           batch_size=batch_size,
           epochs=epochs,
           verbose=1,
+          validation_data=(x_dev, y_dev)
           )
 
 score = model.evaluate(x_test, y_test, verbose=0)
