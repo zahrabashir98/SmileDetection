@@ -99,10 +99,19 @@ model.compile(loss=keras.losses.categorical_crossentropy,
 # for w in model.get_weights():
 #     print(w.shape)
 
+checkpointer = keras.callbacks.ModelCheckpoint(
+    'models/model.h5',
+    save_best_only = True,
+    monitor = 'val_acc',
+    mode = 'auto',
+    verbose = 1
+)
+
 model.fit(x_train, y_train,
           batch_size=batch_size,
           epochs=epochs,
           verbose=1,
+          callbacks=[checkpointer],
           validation_data=(x_dev, y_dev)
           )
 
