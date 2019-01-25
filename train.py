@@ -29,8 +29,12 @@ with open('./data/fer2013.csv') as file:
 
     for line in lines:
         emotion, pixels, usage = line.split(',')
-        if not (emotion == '0' or emotion == '1'):
+        if not (emotion == '6' or emotion == '3'):
             continue
+        if emotion == '6':
+            emotion = 0
+        if emotion == '3':
+            emotion = 1
 
         if usage == 'Training':
             x, y = x_train, y_train
@@ -43,7 +47,7 @@ with open('./data/fer2013.csv') as file:
 
         pixels = [int(p) for p in pixels.split(' ')]
         x.append(np.array(pixels))
-        y.append(int(emotion))
+        y.append(emotion)
 
 x_train = np.array(x_train)
 y_train = np.array(y_train)
