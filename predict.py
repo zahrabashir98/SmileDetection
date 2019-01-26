@@ -44,7 +44,7 @@ def predict(gray_image):
                 width = float(w),
                 height = float(h),
             ),
-            prediction = {'neutral': float(predicted_emotions[0]), 'happiness': float(predicted_emotions[1])},
+            prediction = {'happiness': float(predicted_emotions[0]), 'neutral': float(predicted_emotions[1])},
             emotion = best_emotion
         )
 

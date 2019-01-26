@@ -126,7 +126,6 @@ history_callback = model.fit(x_train, y_train,
           validation_data=(x_dev, y_dev)
           )
 
-
 if logging:
     # # write loss log on file
     # loss_history = history_callback.history["loss"]
