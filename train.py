@@ -14,7 +14,7 @@ import numpy as np
 
 batch_size = 128
 num_classes = 2
-epochs = 20
+epochs = 50
 logging = True
 
 # input image dimensions
@@ -91,14 +91,14 @@ y_test = keras.utils.to_categorical(y_test, num_classes)
 
 # initializing model
 model = Sequential()
-model.add(Conv2D(16, kernel_size=(5, 5), activation='relu', input_shape=(48, 48, 1)))
-model.add(Conv2D(32, kernel_size=(3, 3), activation='relu'))
+model.add(Conv2D(8, kernel_size=(5, 5), activation='relu', input_shape=(48, 48, 1)))
+model.add(Conv2D(16, kernel_size=(3, 3), activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.25))
-model.add(Conv2D(32, kernel_size=(3, 3), activation='relu'))
+model.add(Conv2D(16, kernel_size=(3, 3), activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Flatten())
-model.add(Dense(256, activation='relu'))
+model.add(Dense(128, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(num_classes, activation='softmax'))
 
