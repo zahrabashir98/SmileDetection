@@ -1,10 +1,12 @@
-from __future__ import print_function
+# keras imports
 import keras
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras import backend as K
 
+# python imports
+from __future__ import print_function
 import numpy as np
 
 
@@ -56,7 +58,7 @@ y_dev = np.array(y_dev)
 x_test = np.array(x_test)
 y_test = np.array(y_test)
 
-# Flexibility in case of different backends (support different backend)
+# flexibility in case of different backends (support different backends)
 if K.image_data_format() == 'channels_first':
     x_train = x_train.reshape(x_train.shape[0], 1, img_rows, img_cols)
     x_dev = x_dev.reshape(x_dev.shape[0], 1, img_rows, img_cols)
@@ -84,6 +86,7 @@ y_train = keras.utils.to_categorical(y_train, num_classes)
 y_dev = keras.utils.to_categorical(y_dev, num_classes)
 y_test = keras.utils.to_categorical(y_test, num_classes)
 
+# initializing model
 model = Sequential()
 model.add(Conv2D(16, kernel_size=(5, 5), activation='relu', input_shape=(48, 48, 1)))
 model.add(Conv2D(32, kernel_size=(3, 3), activation='relu'))
@@ -103,6 +106,7 @@ model.compile(loss=keras.losses.categorical_crossentropy,
 # for w in model.get_weights():
 #     print(w.shape)
 
+# save the model after every epoch
 checkpointer = keras.callbacks.ModelCheckpoint(
     'models/model.h5',
     save_best_only = True,
