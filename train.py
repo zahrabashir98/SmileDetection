@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 # keras imports
 import keras
 from keras.models import Sequential
@@ -6,13 +8,13 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras import backend as K
 
 # python imports
-from __future__ import print_function
 import numpy as np
 
 
 batch_size = 128
 num_classes = 2
-epochs = 50
+epochs = 2
+logging = True
 
 # input image dimensions
 img_rows, img_cols = 48, 48
@@ -115,13 +117,21 @@ checkpointer = keras.callbacks.ModelCheckpoint(
     verbose = 1
 )
 
-model.fit(x_train, y_train,
+history_callback = model.fit(x_train, y_train,
           batch_size=batch_size,
           epochs=epochs,
           verbose=1,
           callbacks=[checkpointer],
           validation_data=(x_dev, y_dev)
           )
+
+loss_history = history_callback.history["loss"]
+
+if logging:
+    # write loss log on file
+    f = open("loss_reports.txt", "w")
+    for loss in loss_history:
+        f.write('%s\n' %loss)
 
 score = model.evaluate(x_test, y_test, verbose=0)
 
