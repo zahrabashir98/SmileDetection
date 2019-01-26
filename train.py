@@ -6,6 +6,7 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras import backend as K
+import matplotlib.pyplot as plt
 
 # python imports
 import numpy as np
@@ -13,7 +14,7 @@ import numpy as np
 
 batch_size = 128
 num_classes = 2
-epochs = 2
+epochs = 20
 logging = True
 
 # input image dimensions
@@ -125,13 +126,32 @@ history_callback = model.fit(x_train, y_train,
           validation_data=(x_dev, y_dev)
           )
 
-loss_history = history_callback.history["loss"]
 
 if logging:
-    # write loss log on file
-    f = open("loss_reports.txt", "w")
-    for loss in loss_history:
-        f.write('%s\n' %loss)
+    # # write loss log on file
+    # loss_history = history_callback.history["loss"]
+    # f = open("loss_reports.txt", "w")
+    # for loss in loss_history:
+    #     f.write('%s\n' %loss)
+
+    # list all data in history
+    print(history_callback.history.keys())
+    # summarize history for accuracy
+    plt.plot(history_callback.history['acc'])
+    plt.plot(history_callback.history['val_acc'])
+    plt.title('model accuracy')
+    plt.ylabel('accuracy')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.show()
+    # summarize history for loss
+    plt.plot(history_callback.history['loss'])
+    plt.plot(history_callback.history['val_loss'])
+    plt.title('model loss')
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.show()
 
 score = model.evaluate(x_test, y_test, verbose=0)
 
