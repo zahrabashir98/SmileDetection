@@ -34,7 +34,7 @@ def predict(gray_image):
 
         face = cv2.resize(face, (48, 48)).reshape((1, 48, 48, 1))
         predicted_emotions = model.predict(face)[0]
-        best_emotion = 'happiness' if predicted_emotions[1] > predicted_emotions[0] else 'neutral'
+        best_emotion = 'smiling' if predicted_emotions[1] > predicted_emotions[0] else 'non-smiling'
 
         # Create a json serializable result
         yield dict(
@@ -44,7 +44,7 @@ def predict(gray_image):
                 width = float(w),
                 height = float(h),
             ),
-            prediction = {'happiness': float(predicted_emotions[0]), 'neutral': float(predicted_emotions[1])},
+            prediction = {'smiling': float(predicted_emotions[0]), 'non-smiling': float(predicted_emotions[1])},
             emotion = best_emotion
         )
 
