@@ -2,6 +2,7 @@ import sys
 import cv2
 from keras.models import load_model
 from matplotlib import pyplot as plt
+import time
 
 
 model = load_model("models/model.h5")
@@ -89,8 +90,17 @@ def show_image(image, title='Result'):
 
 
 if __name__ == '__main__':
+    
+    # start time
+    start_time = time.time()
     image, gray_image = load_image(sys.argv[1])
+
     for face_info in predict(gray_image):
         print(face_info)
         draw_face_info(image, face_info)
+    end_time = time.time()
     show_image(image)
+    # end time
+    
+    response_time = end_time - start_time
+    print(response_time)
