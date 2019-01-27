@@ -98,9 +98,9 @@ if __name__ == '__main__':
     for face_info in predict(gray_image):
         print(face_info)
         draw_face_info(image, face_info)
+    # end time
     end_time = time.time()
     show_image(image)
-    # end time
-    
+
     response_time = end_time - start_time
     print(response_time)
