@@ -1,2 +1,2 @@
 # SmileDetection
-See `presentation.pdf` for details of the project.
+See `presentation.pdf` for details.
